@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section id="wrap">
+    <header>
+      <h1>Bear Bass</h1>
+      <h2>Use your keyboard. Hover for hints.</h2>
+    </header>
+    <section id="main">
+      <div class="nowplaying"></div>
+      <div class="keys">
+        <div data-key="65" class="key" data-note="C">
+            <span class="hints">A</span>
+        </div>
+        <div data-key="87" class="key sharp" data-note="C#">
+            <span class="hints">W</span>
+        </div>
+        <div data-key="83" class="key" data-note="D">
+            <span class="hints">S</span>
+        </div>
+        <div data-key="69" class="key sharp" data-note="D#">
+            <span class="hints">E</span>
+        </div>
+        <div data-key="68" class="key" data-note="E">
+            <span class="hints">D</span>
+        </div>
+        <div data-key="70" class="key" data-note="F">
+            <span class="hints">F</span>
+        </div>
+        <div data-key="84" class="key sharp" data-note="F#">
+            <span class="hints">T</span>
+        </div>
+        <div data-key="71" class="key" data-note="G">
+            <span class="hints">G</span>
+        </div>
+        <div data-key="89" class="key sharp" data-note="G#">
+            <span class="hints">Y</span>
+        </div>
+        <div data-key="72" class="key" data-note="A">
+            <span class="hints">H</span>
+        </div>
+        <div data-key="85" class="key sharp" data-note="A#">
+            <span class="hints">U</span>
+        </div>
+        <div data-key="74" class="key" data-note="B">
+            <span class="hints">J</span>
+        </div>
+        <div data-key="75" class="key" data-note="C">
+            <span class="hints">K</span>
+        </div>
+        <div data-key="79" class="key sharp" data-note="C#">
+            <span class="hints">O</span>
+        </div>
+        <div data-key="76" class="key" data-note="D">
+            <span class="hints">L</span>
+        </div>
+        <div data-key="80" class="key sharp" data-note="D#">
+            <span class="hints">P</span>
+        </div>
+        <div data-key="48" class="key" data-note="E">
+            <span class="hints">0</span>
+        </div>
+      </div>
+
+      <audio data-key="65" src="samples/0.wav"></audio>
+      <audio data-key="87" src="samples/1.wav"></audio>
+      <audio data-key="83" src="samples/2.wav"></audio>
+      <audio data-key="69" src="samples/3.wav"></audio>
+      <audio data-key="68" src="samples/4.wav"></audio>
+      <audio data-key="70" src="samples/5.wav"></audio>
+      <audio data-key="84" src="samples/6.wav"></audio>
+      <audio data-key="71" src="samples/7.wav"></audio>
+      <audio data-key="89" src="samples/8.wav"></audio>
+      <audio data-key="72" src="samples/9.wav"></audio>
+      <audio data-key="85" src="samples/10.wav"></audio>
+      <audio data-key="74" src="samples/11.wav"></audio>
+      <audio data-key="75" src="samples/12.wav"></audio>
+      <audio data-key="79" src="samples/12.wav"></audio>
+      <audio data-key="76" src="samples/13.wav"></audio>
+      <audio data-key="80" src="samples/14.wav"></audio>
+      <audio data-key="48" src="samples/15.wav"></audio>
+
+      </section>
+  </section>
+  <video playsinline autoplay muted loop id="bgvid" poster="http://carolinegabriel.com/demo/js-keyboard/video/bg.jpg">
+      <source src="http://carolinegabriel.com/demo/js-keyboard/video/bg.mp4" type="video/mp4">
+  </video>
+
+  <script type="text/javascript">
+    const keys = document.querySelectorAll(".key"),
+      note = document.querySelector(".nowplaying"),
+      hints = document.querySelectorAll(".hints");
+
+    function playNote(e) {
+      const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`),
+        key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+
+      if (!key) return;
+
+      const keyNote = key.getAttribute("data-note");
+
+      key.classList.add("playing");
+      note.innerHTML = keyNote;
+      audio.currentTime = 0;
+      audio.play();
+    }
+
+    function removeTransition(e) {
+      if (e.propertyName !== "transform") return;
+      this.classList.remove("playing");
+    }
+
+    function hintsOn(e, index) {
+      e.setAttribute("style", "transition-delay:" + index * 50 + "ms");
+    }
+
+    hints.forEach(hintsOn);
+
+    keys.forEach(key => key.addEventListener("transitionend", removeTransition));
+
+    window.addEventListener("keydown", playNote);
+
+
+
+  </script>
+
+
+  </body>
+  </html>
